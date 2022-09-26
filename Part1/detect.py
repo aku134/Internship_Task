@@ -227,6 +227,42 @@ def run(
 
         # Print time (inference-only)
         LOGGER.info(f"{s}{'' if len(det) else '(no detections), '}{dt[1].dt * 1E3:.1f}ms")
+        tree = ET.ElementTree(file='result_to_xml.xml')
+        data = tree.getroot()
+
+        #splitting to obtain
+        #path and objects
+        #from the result
+        p=s.split(" ",3)
+
+        #creating a subtag
+        element1 = ET.SubElement(data, "path")
+        #adding text
+        element1.text=p[2]
+        
+        l=p[3].split(" ",1)
+
+        #creating a subtag
+        element2 = ET.SubElement(data, "dims")
+        #adding text
+        element2.text=l[0]
+
+        d=l[1].split(",")
+        for i in range(len(d)-1):
+            #creating a subtag
+            element3 = ET.SubElement(data, "object")
+            #adding text
+            element3.text=d[i]
+
+        #creating a subtag
+        element4 = ET.SubElement(data, "speed")
+        #adding text
+        element4.text=str(int(dt[1].dt * 1E3))+" ms"
+        
+        #writing to the xml file
+        with open("result_to_xml.xml", "wb") as fh:
+         tree.write(fh)
+
 
     # Print results
     t = tuple(x.t / seen * 1E3 for x in dt)  # speeds per image
