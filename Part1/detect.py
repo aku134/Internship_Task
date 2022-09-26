@@ -33,6 +33,8 @@ from pathlib import Path
 
 import torch
 
+import xml.etree.ElementTree as ET
+
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory
 if str(ROOT) not in sys.path:
@@ -48,6 +50,29 @@ from utils.torch_utils import select_device, smart_inference_mode
 
 
 @smart_inference_mode()
+def res_to_xml():
+    
+    # This is the parent (root) tag
+    # onto which other tags would be
+    # created
+    data = ET.Element("Result")
+    
+    data.text = ""
+  
+    # Converting the xml data to byte object,
+    # for allowing flushing data to file
+    # stream
+    b_xml = ET.tostring(data)
+    
+    # Opening a file under the name `result_to_xml.xml`,
+    # with operation mode `wb` (write + binary)
+    with open("result_to_xml.xml", "wb") as f:
+        f.write(b_xml)
+
+
+
+
+
 def run(
         weights=ROOT / 'yolov5s.pt',  # model path or triton URL
         source=ROOT / 'data/images',  # file/dir/URL/glob/screen/0(webcam)
@@ -254,5 +279,10 @@ def main(opt):
 
 
 if __name__ == "__main__":
+    #function to convert
+    #annotaions into xml
+    #format
+    res_to_xml()
+
     opt = parse_opt()
     main(opt)
