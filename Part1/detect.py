@@ -116,6 +116,9 @@ def annot_to_xml(s,bndbox):
 
     l=p[3].split(" ",1)
     obj=l[1].split(", ")
+
+    index=0
+    prev=0
     for i in range(len(obj)-1):
         # Creating a subtag
         object= ET.SubElement(data,"object")
@@ -138,47 +141,33 @@ def annot_to_xml(s,bndbox):
 
         # Extracting coordinates of 
         # bounding boxes
+        bnd_box= ET.SubElement(object,"bndbox")
         
-      
-    
-   
+        for j in range(index,int(num)+prev):
+            #creating a subtag
+            xmin = ET.SubElement(bnd_box, "xmin")
+            #adding text
+            xmin.text=str(int(bndbox[j][0]))
 
-    
+            xmax = ET.SubElement(bnd_box, "xmax")
+            #adding text
+            xmax.text=str(int(bndbox[j][1]))
 
-   
-    # for i in range(len(d)-1):
-    # #creating a subtag
-    #     element3 = ET.SubElement(data, "object")
-    #     #adding text
-    #     element3.text=d[i]
-    #     for j in range(len(list)-len(d)-i):
-            
-    #     #creating a subtag
-    #         element5 = ET.SubElement(element3, "xmin")
-    #         #adding text
-    #         element5.text=str(int(list[j][0]))
+            ymin = ET.SubElement(bnd_box, "ymin")
+            #adding text
+            ymin.text=str(int(bndbox[j][2]))
 
-    #         #creating a subtag
-    #         element5 = ET.SubElement(element3, "xmax")
-    #         #adding text
-    #         element5.text=str(int(list[j][1]))
+            ymax = ET.SubElement(bnd_box, "ymax")
+            #adding text
+            ymax.text=str(int(bndbox[j][3]))
+            if(j==int(num)):
+                break;
+        
 
-    #         #creating a subtag
-    #         element5 = ET.SubElement(element3, "ymin")
-    #         #adding text
-    #         element5.text=str(int(list[j][2]))
+        index+=int(num)
+        prev=int(num)
+           
 
-    #         #creating a subtag
-    #         element5 = ET.SubElement(element3, "ymax")
-    #         #adding text
-    #         element5.text=str(int(list[j][3]))
-    
-
-    # #creating a subtag
-    # element4 = ET.SubElement(data, "speed")
-    # #adding text
-    # element4.text=str(int(dt[1].dt * 1E3))+" ms"
-    
     #writing to the xml file
     with open("result_to_xml.xml", "wb") as fh:
         tree.write(fh,encoding="utf-8")
