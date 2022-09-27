@@ -26,6 +26,7 @@ Usage - formats:
 """
 
 import argparse
+from logging import root
 import os
 import platform
 import sys
@@ -50,12 +51,12 @@ from utils.torch_utils import select_device, smart_inference_mode
 
 
 @smart_inference_mode()
-def res_to_xml():
+def xml_struct():
     
     # This is the parent (root) tag
     # onto which other tags would be
     # created
-    data = ET.Element("Result")
+    data = ET.Element("annotation")
     
     data.text = ""
   
@@ -69,6 +70,118 @@ def res_to_xml():
     with open("result_to_xml.xml", "wb") as f:
         f.write(b_xml)
 
+def annot_to_xml(s,bndbox):
+    tree = ET.ElementTree(file='result_to_xml.xml')
+    data = tree.getroot()
+    
+
+    # Splitting to extract path and objects
+    # from the result
+    p=s.split(" ",3)
+    l=p[2].split("\\",5)
+
+    # Extracting the path
+    img_path=l[5].split(":")[0]
+    # Creating a subtag
+    image_path = ET.SubElement(data, "path")
+    # Adding text
+    image_path.text=img_path
+
+    # Extracting filename
+    m=img_path.split("\\")
+    img_name=m[len(m)-1]
+    # Creating a subtag
+    file_name = ET.SubElement(data, "filename")
+    # Adding text
+    file_name.text=img_name
+
+
+    # Extracting image dimensions
+    dims=p[3].split(" ",1)[0]
+    # Creating a subtag
+    size = ET.SubElement(data, "size")
+    # Extracting width and height
+    img_size=dims.split("x")
+    # Creating a subtag
+    width= ET.SubElement(size,"width")
+    # Adding text
+    width.text=img_size[0]
+    # Creating a subtag
+    height= ET.SubElement(size,"height")
+    # Adding text
+    height.text=img_size[1]
+
+    
+   
+
+    l=p[3].split(" ",1)
+    obj=l[1].split(", ")
+    for i in range(len(obj)-1):
+        # Creating a subtag
+        object= ET.SubElement(data,"object")
+
+        info=obj[i].split(" ")
+        
+        # Extracting number
+        num=info[0]
+        # Creating a subtag
+        number= ET.SubElement(object,"number")
+        # Adding text
+        number.text=num
+
+        # Extracting name
+        obj_name=info[1]
+        # Creating a subtag
+        name= ET.SubElement(object,"name")
+        # Adding text
+        name.text=obj_name
+
+        # Extracting coordinates of 
+        # bounding boxes
+        
+      
+    
+   
+
+    
+
+   
+    # for i in range(len(d)-1):
+    # #creating a subtag
+    #     element3 = ET.SubElement(data, "object")
+    #     #adding text
+    #     element3.text=d[i]
+    #     for j in range(len(list)-len(d)-i):
+            
+    #     #creating a subtag
+    #         element5 = ET.SubElement(element3, "xmin")
+    #         #adding text
+    #         element5.text=str(int(list[j][0]))
+
+    #         #creating a subtag
+    #         element5 = ET.SubElement(element3, "xmax")
+    #         #adding text
+    #         element5.text=str(int(list[j][1]))
+
+    #         #creating a subtag
+    #         element5 = ET.SubElement(element3, "ymin")
+    #         #adding text
+    #         element5.text=str(int(list[j][2]))
+
+    #         #creating a subtag
+    #         element5 = ET.SubElement(element3, "ymax")
+    #         #adding text
+    #         element5.text=str(int(list[j][3]))
+    
+
+    # #creating a subtag
+    # element4 = ET.SubElement(data, "speed")
+    # #adding text
+    # element4.text=str(int(dt[1].dt * 1E3))+" ms"
+    
+    #writing to the xml file
+    with open("result_to_xml.xml", "wb") as fh:
+        tree.write(fh,encoding="utf-8")
 
 
 
@@ -182,6 +295,7 @@ def run(
                     s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
 
                 # Write results
+                bndbox=[]
                 for *xyxy, conf, cls in reversed(det):
                     if save_txt:  # Write to file
                         xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
@@ -193,9 +307,10 @@ def run(
                         c = int(cls)  # integer class
                         label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}')
                         annotator.box_label(xyxy, label, color=colors(c, True))
+                                             
                     if save_crop:
                         save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
-
+                    bndbox.append(xyxy) 
             # Stream results
             im0 = annotator.result()
             if view_img:
@@ -227,44 +342,11 @@ def run(
 
         # Print time (inference-only)
         LOGGER.info(f"{s}{'' if len(det) else '(no detections), '}{dt[1].dt * 1E3:.1f}ms")
-        tree = ET.ElementTree(file='result_to_xml.xml')
-        data = tree.getroot()
-
-        #splitting to obtain
-        #path and objects
-        #from the result
-        p=s.split(" ",3)
-
-        #creating a subtag
-        element1 = ET.SubElement(data, "path")
-        #adding text
-        element1.text=p[2]
         
-        l=p[3].split(" ",1)
+        # Save annotaions in xml file
+        annot_to_xml(s,bndbox)
 
-        #creating a subtag
-        element2 = ET.SubElement(data, "dims")
-        #adding text
-        element2.text=l[0]
-
-        d=l[1].split(",")
-        for i in range(len(d)-1):
-            #creating a subtag
-            element3 = ET.SubElement(data, "object")
-            #adding text
-            element3.text=d[i]
-
-        #creating a subtag
-        element4 = ET.SubElement(data, "speed")
-        #adding text
-        element4.text=str(int(dt[1].dt * 1E3))+" ms"
-        
-        #writing to the xml file
-        with open("result_to_xml.xml", "wb") as fh:
-         tree.write(fh)
-
-
-    # Print results
+         # Print results
     t = tuple(x.t / seen * 1E3 for x in dt)  # speeds per image
     LOGGER.info(f'Speed: %.1fms pre-process, %.1fms inference, %.1fms NMS per image at shape {(1, 3, *imgsz)}' % t)
     if save_txt or save_img:
@@ -315,10 +397,9 @@ def main(opt):
 
 
 if __name__ == "__main__":
-    #function to convert
-    #annotaions into xml
-    #format
-    res_to_xml()
+   # Function to define the structure
+   # of xml file
+    xml_struct()
 
     opt = parse_opt()
     main(opt)
