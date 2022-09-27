@@ -151,9 +151,10 @@ def annot_to_xml(s,bndbox):
 
         # Extracting coordinates of 
         # bounding boxes
-        bnd_box= ET.SubElement(object,"bndbox")
+       
         
         for j in range(index,int(num)+prev):
+            bnd_box= ET.SubElement(object,"bndbox")
             # Creating a subtag
             xmin = ET.SubElement(bnd_box, "xmin")
             #adding text
