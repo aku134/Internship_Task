@@ -51,6 +51,20 @@ from utils.torch_utils import select_device, smart_inference_mode
 
 
 @smart_inference_mode()
+def indent(elem, level=0):
+    i = "\n" + level*"  "
+    if len(elem):
+        if not elem.text or not elem.text.strip():
+            elem.text = i + "  "
+        if not elem.tail or not elem.tail.strip():
+            elem.tail = i
+        for elem in elem:
+            indent(elem, level+1)
+        if not elem.tail or not elem.tail.strip():
+            elem.tail = i
+    else:
+        if level and (not elem.tail or not elem.tail.strip()):
+            elem.tail = i
 def xml_struct():
     
     # This is the parent (root) tag
@@ -74,7 +88,6 @@ def annot_to_xml(s,bndbox):
     tree = ET.ElementTree(file='result_to_xml.xml')
     data = tree.getroot()
     
-
     # Splitting to extract path and objects
     # from the result
     p=s.split(" ",3)
@@ -111,9 +124,6 @@ def annot_to_xml(s,bndbox):
     # Adding text
     height.text=img_size[1]
 
-    
-   
-
     l=p[3].split(" ",1)
     obj=l[1].split(", ")
 
@@ -144,19 +154,19 @@ def annot_to_xml(s,bndbox):
         bnd_box= ET.SubElement(object,"bndbox")
         
         for j in range(index,int(num)+prev):
-            #creating a subtag
+            # Creating a subtag
             xmin = ET.SubElement(bnd_box, "xmin")
             #adding text
             xmin.text=str(int(bndbox[j][0]))
-
+            # Creating a subtag
             xmax = ET.SubElement(bnd_box, "xmax")
             #adding text
             xmax.text=str(int(bndbox[j][1]))
-
+            # Creating a subtag
             ymin = ET.SubElement(bnd_box, "ymin")
             #adding text
             ymin.text=str(int(bndbox[j][2]))
-
+            # Creating a subtag
             ymax = ET.SubElement(bnd_box, "ymax")
             #adding text
             ymax.text=str(int(bndbox[j][3]))
@@ -166,12 +176,13 @@ def annot_to_xml(s,bndbox):
 
         index+=int(num)
         prev=int(num)
-           
 
-    #writing to the xml file
+    # Function to format the xml data
+    indent(data)
+    # Writing to the xml file
     with open("result_to_xml.xml", "wb") as fh:
         tree.write(fh,encoding="utf-8")
-
+    
 
 
 

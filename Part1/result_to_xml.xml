@@ -1,1 +1,40 @@
-<annotation><path>Internship_task\Part1\data\images\bus.jpg</path><filename>bus.jpg</filename><size><width>640</width><height>480</height></size><object><number>4</number><name>persons</name><bndbox><xmin>0</xmin><xmax>552</xmax><ymin>68</ymin><ymax>875</ymax><xmin>13</xmin><xmax>223</xmax><ymin>810</ymin><ymax>789</ymax><xmin>49</xmin><xmax>390</xmax><ymin>248</ymin><ymax>912</ymax><xmin>221</xmin><xmax>408</xmax><ymin>346</ymin><ymax>867</ymax></bndbox></object><object><number>1</number><name>bus</name><bndbox><xmin>672</xmin><xmax>395</xmax><ymin>810</ymin><ymax>878</ymax></bndbox></object></annotation>
+<annotation>
+  <path>Internship_task\Part1\data\images\bus.jpg</path>
+  <filename>bus.jpg</filename>
+  <size>
+    <width>640</width>
+    <height>480</height>
+  </size>
+  <object>
+    <number>4</number>
+    <name>persons</name>
+    <bndbox>
+      <xmin>0</xmin>
+      <xmax>552</xmax>
+      <ymin>68</ymin>
+      <ymax>875</ymax>
+      <xmin>13</xmin>
+      <xmax>223</xmax>
+      <ymin>810</ymin>
+      <ymax>789</ymax>
+      <xmin>49</xmin>
+      <xmax>390</xmax>
+      <ymin>248</ymin>
+      <ymax>912</ymax>
+      <xmin>221</xmin>
+      <xmax>408</xmax>
+      <ymin>346</ymin>
+      <ymax>867</ymax>
+    </bndbox>
+  </object>
+  <object>
+    <number>1</number>
+    <name>bus</name>
+    <bndbox>
+      <xmin>672</xmin>
+      <xmax>395</xmax>
+      <ymin>810</ymin>
+      <ymax>878</ymax>
+    </bndbox>
+  </object>
+</annotation>
