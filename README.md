@@ -1,6 +1,6 @@
 # Internship_task
 ## Part1
-## Objective
+### Objective
 Input a jpg image,run through the YOLOv5 model and get annotations in a XML format.
 <summary>Install</summary>
 Clone repo and install [requirements.txt](https://github.com/aku134/Internship_task/blob/master/Part1/requirements.txt)
