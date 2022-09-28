@@ -18,7 +18,7 @@ class Polygon(Frame):
         canvas = Canvas(self)
         
         canvas.create_polygon(coordinates, outline='black',
-            fill='blue', width=3)
+            fill='white', width=3)
 
         canvas.pack(fill=BOTH, expand=1)
 
@@ -57,7 +57,7 @@ def ordered_points(coordinates,n):
     C=[] # Stores collinear points w.r.t Leftmost and Rightmost points
 
     for i in range(n):
-        # If index equals leftmost coordinate's index or rightmost coordinate's index
+        # If index equals leftmost point's index or rightmost point's index
         # skip the current iteration and move to next
         if(i==L or i==R):
             continue
