@@ -2,7 +2,7 @@
 from tkinter import Tk, Canvas, Frame, BOTH
 
 # Draw polygon shape based on coordinates
-class polygon(Frame):
+class Polygon(Frame):
 
     def __init__(self,coordinates):
         super().__init__()
@@ -22,7 +22,7 @@ class polygon(Frame):
 
         canvas.pack(fill=BOTH, expand=1)
 
-# Function to find the leftmost coordinates's index
+# Function to find the leftmost point's index
 def leftmost_coordinates_index(coordinates,n):
     min_val=0
     for i in range(n):
@@ -34,7 +34,7 @@ def leftmost_coordinates_index(coordinates,n):
 
     return min_val
 
-# Function to find the rightmost coordinates's index
+# Function to find the rightmost point's index
 def rightmost_coordinates_index(coordinates,n):
     max_val=0
     for i in range(n):
@@ -46,12 +46,16 @@ def rightmost_coordinates_index(coordinates,n):
 
     return max_val
 
+# Function to get the order of points forming a polygon
 def ordered_points(coordinates,n):
+
     L=leftmost_coordinates_index(coordinates,n)
     R=rightmost_coordinates_index(coordinates,n)
-    A=[]
-    B=[]
-    C=[]
+
+    A=[] # Stores points that occur above LR segment
+    B=[] # Stores points that occur below LR segment
+    C=[] # Stores collinear points w.r.t Leftmost and Rightmost points
+
     for i in range(n):
         # If index equals leftmost coordinate's index or rightmost coordinate's index
         # skip the current iteration and move to next
@@ -76,8 +80,9 @@ def ordered_points(coordinates,n):
         
     ordered_list=[]
     ordered_list.append(coordinates[L])
-
-    sorted(A)
+    # Sorting points in ascending based on x coordinate
+    A.sort(key=lambda y:y[0])
+    # Sorting points in Descending based on x coordinate
     B.sort(key=lambda y: y[0],reverse=True)
     
     for i in A:
@@ -90,30 +95,39 @@ def ordered_points(coordinates,n):
          ordered_list.append(i)
     return ordered_list
 
-coordinates=[]
-coordinates.append((300,200))
-coordinates.append((500,300))
-coordinates.append((200,200))
-coordinates.append((300,100))
-coordinates.append((400,100))
-coordinates.append((300,500))
+def main():
+    coordinates=[]
+    coordinates.append((300,200))
+    coordinates.append((500,300))
+    coordinates.append((200,200))
+    coordinates.append((300,100))
+    coordinates.append((400,100))
+    coordinates.append((300,500))
 
-# coordinates.append((500,300))
-# coordinates.append((400,300))
-# coordinates.append((300,400))
-# coordinates.append((200,300))
+    # coordinates.append((500,300))
+    # coordinates.append((400,300))
+    # coordinates.append((300,400))
+    # coordinates.append((200,300))
 
-# coordinates.append((0,300))
-# coordinates.append((200,200))
-# coordinates.append((100,100))
-# coordinates.append((200,100))
-# coordinates.append((300,0))
-# coordinates.append((0,0))
-# coordinates.append((300,300))
-n=len(coordinates)
-ordered_list=ordered_points(coordinates,n)
+    # coordinates.append((0,300))
+    # coordinates.append((200,200))
+    # coordinates.append((100,100))
+    # coordinates.append((200,100))
+    # coordinates.append((300,0))
+    # coordinates.append((0,0))
+    # coordinates.append((300,300))
 
-root = Tk()
-obj = polygon(ordered_list)
-root.geometry("1024x1024")
-root.mainloop()
+    n=len(coordinates)
+    # Function to get ordered list of points
+    # forming a polygon
+    ordered_list=ordered_points(coordinates,n)
+
+    root = Tk()
+    # Draws a polygon based on ordered points
+    Polygon(ordered_list)
+    root.geometry("1024x1024")
+    root.mainloop()
+
+
+if __name__ == '__main__':
+    main()
