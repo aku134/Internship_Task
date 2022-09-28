@@ -103,7 +103,12 @@ def main():
     coordinates.append((300,100))
     coordinates.append((400,100))
     coordinates.append((300,500))
-
+    print("Unordered points")
+    dict={}
+    for i in range(len(coordinates)):
+        dict[coordinates[i]]=chr(i+65)
+    print(dict)   
+        
     # coordinates.append((500,300))
     # coordinates.append((400,300))
     # coordinates.append((300,400))
@@ -124,7 +129,10 @@ def main():
         # Function to get ordered list of points
         # forming a polygon
         ordered_list=ordered_points(coordinates,n)
-
+        print("Ordered points")
+        for i in range(len(ordered_list)):
+            print(ordered_list[i],dict[ordered_list[i]])
+                
         root = Tk()
         # Draws a polygon based on ordered points
         Polygon(ordered_list)
