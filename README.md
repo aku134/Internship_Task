@@ -32,7 +32,7 @@ The XML file is saved as result_to_xml.xml in the same directory.The image resul
 
 ## Part2
 ### Objective
-Given n number of unordered points,create a function that returns a polgon passing through all the points.
+Given n number of unordered points,create a function that returns a polygon passing through all the points.
 <details open>
 <summary>Install</summary>
 Install tkinter which is an open source python package that helps create GUIs.
