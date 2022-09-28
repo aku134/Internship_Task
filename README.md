@@ -33,7 +33,7 @@ The XML file is saved as result_to_xml.xml in the same directory.The image resul
 ## Part2
 ### Objective
 Given n number of unordered points,create a function that returns a polygon passing through all the points.
-## Algorithm
+### Algorithm
 <ul>
 <li>The idea behind the solution is to find the leftmost and the rightmost points.We can do this by selecting the point with the least x coordinate and maximum x coordinate values respectively.</li>
 <li>The next step is to consider an imaginary line passing through both these points.
