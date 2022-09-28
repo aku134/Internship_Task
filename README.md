@@ -61,8 +61,24 @@ pip install tk
 python app.py
 ```
 </details>
+
+### Example
+
+<details open>
+<summary>Input</summary>
+Unordered points<br>
+(300, 200): A, (500, 300): B, (200, 200): C, (300, 100): D, (400, 100): E, (300, 500): F
+
+</details>
 <details open>
 <summary>Output</summary>
+Ordered points:<br>
+(200, 200): C,
+(300, 500): F,
+(500, 300): B,
+(400, 100): E,
+(300, 200): A,
+(300, 100): D,<br><br>
 <img src="Readme_imgs/polygon.jpg" width=500 height=450>
 
 </details>
