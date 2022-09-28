@@ -29,3 +29,24 @@ python detect.py --source data/images/bus.jpg
 
 </details>
 The XML file is saved as result_to_xml.xml in the same directory.The image result is saved under runs/detect.
+
+## Part2
+### Objective
+Given n number of unordered points,create a function that returns a polgon passing through all the points.
+
+<details open>
+<summary>Run</summary>
+
+```bash
+python app.py
+```
+</details>
+<details open>
+<summary>Output</summary>
+<img src="Readme_imgs/polygon.jpg" width=500 height=450>
+
+</details>
+The polygon shape is drawn on a canvas window.
+
+
+
