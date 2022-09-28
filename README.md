@@ -44,7 +44,8 @@ There could be a case where the value is 0 i.e the point is collinear with the l
 <li>Array A is then sorted in increasing order of their value (ascending) w.r.t to the x coordinate.
  Array B is sorted in decreasing order of their value (descending) w.r.t to the x coordinate.</li>
 <li>The idea is to connect the points in clockwise direction while forming a polygon<br>
-Finally leftmost point is added first to the final list followed by points in sorted array(ascending) A,rightmost point followed by points in sorted array(descending) B.If there is a collinear point, stored in array C that is added at last.</li><br>
+The Leftmost point is added first to the final list followed by points in sorted array A (ascending),Rightmost point followed by points in sorted array B(descending).If there is a collinear point, stored in array C, that is added at last.</li>
+ <li>Finally all the points are connected in order and the last point is connected back to the starting point i.e leftmost point.</li>
  </ul>
 
 
