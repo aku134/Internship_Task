@@ -118,15 +118,18 @@ def main():
     # coordinates.append((300,300))
 
     n=len(coordinates)
-    # Function to get ordered list of points
-    # forming a polygon
-    ordered_list=ordered_points(coordinates,n)
+    if(n<3):
+        print("polygon not possible")
+    else:
+        # Function to get ordered list of points
+        # forming a polygon
+        ordered_list=ordered_points(coordinates,n)
 
-    root = Tk()
-    # Draws a polygon based on ordered points
-    Polygon(ordered_list)
-    root.geometry("1024x1024")
-    root.mainloop()
+        root = Tk()
+        # Draws a polygon based on ordered points
+        Polygon(ordered_list)
+        root.geometry("1024x1024")
+        root.mainloop()
 
 
 if __name__ == '__main__':
